@@ -71,6 +71,11 @@ class TaskView(APIView):
     @staticmethod
     def get(request):
         tg_id = request.GET.get("tg_id")
+        task_id = request.GET.get("task_id")
+        if task_id:
+            tasks = Task.objects.get(id=task_id)
+            serializer = TaskReadSerializer(tasks)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         try:
             tg_user = TGUser.objects.get(tg_id=tg_id)
         except TGUser.DoesNotExist:
