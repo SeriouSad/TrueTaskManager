@@ -38,6 +38,19 @@ class SendConfirmationEmailView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+class CheckUser(APIView):
+    def get(self, request):
+        data = dict(request.data)
+        tg_id = int(data.get("tg_id", None))
+        if tg_id:
+            if TGUser.objects.filter(tg_id=tg_id).exists():
+                return Response({"confirmed": True}, status=status.HTTP_200_OK)
+            else:
+                return Response({"Error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+        else:
+            return Response({'Error': 'Wrong fields'}, status=status.HTTP_400_BAD_REQUEST)
+
+
 class CheckConfirmationEmailView(View):
     @staticmethod
     def get(request, tg_id, code):

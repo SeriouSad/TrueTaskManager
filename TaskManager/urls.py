@@ -9,4 +9,5 @@ urlpatterns = [
     path('priority', TaskPriorityView.as_view()),
     path('finished', Task2View.as_view()),
     path('fire-tasks', Task3View.as_view()),
+    path('check-user', CheckUser.as_view())
 ]
