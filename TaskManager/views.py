@@ -43,7 +43,7 @@ class CheckUser(APIView):
         data = dict(request.data)
         tg_id = int(data.get("tg_id", None))
         if tg_id:
-            if TGUser.objects.filter(tg_id=tg_id).exists():
+            if TGUser.objects.filter(tg_id=tg_id, confirmed=True).exists():
                 return Response({"confirmed": True}, status=status.HTTP_200_OK)
             else:
                 return Response({"Error": "User not found"}, status=status.HTTP_404_NOT_FOUND)
@@ -56,7 +56,8 @@ class CheckConfirmationEmailView(View):
     def get(request, tg_id, code):
         tg_user = get_object_or_404(TGUser, tg_id=tg_id)
         code_obj = get_object_or_404(ConfirmationCode, user=tg_user)
-        if datetime.datetime.now(datetime.timezone.utc) - code_obj.creation_datetime < datetime.timedelta(minutes=5)\
+        print(datetime.datetime.now(datetime.timezone.utc))
+        if datetime.datetime.now(datetime.timezone.utc) - code_obj.creation_datetime < datetime.timedelta(minutes=30)\
                 and code == code_obj.code:
             tg_user.confirmed = True
             tg_user.save()

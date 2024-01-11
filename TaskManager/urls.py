@@ -3,7 +3,7 @@ from .views import *
 
 urlpatterns = [
     path('create-tg-user', SendConfirmationEmailView.as_view()),
-    path('confirm-email/<int:tg_id>/<str:code>/', CheckConfirmationEmailView.as_view(), name='confirm_email'),
+    path('confirm-email/<int:tg_id>/<int:code>/', CheckConfirmationEmailView.as_view(), name='confirm_email'),
     path('task', TaskView.as_view()),
     path('status', TaskStatusView.as_view()),
     path('priority', TaskPriorityView.as_view()),
