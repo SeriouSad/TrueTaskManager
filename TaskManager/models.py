@@ -38,8 +38,8 @@ class TaskStatus(models.Model):
 
 
 class Task(models.Model):
-    user = models.ForeignKey(TGUser, on_delete=models.CASCADE, verbose_name="Пользователь")
-    name = models.CharField(max_length=255, verbose_name="Заголовок задачи")
+    user = models.ForeignKey(TGUser, on_delete=models.CASCADE, verbose_name="Пользователь", null=True)
+    name = models.CharField(max_length=255, verbose_name="Заголовок задачи", null=True)
     text = models.TextField(verbose_name="Текст задачи", null=True)
     deadline_date = models.DateTimeField(verbose_name="Дата дедлайна", null=True)
     finished = models.BooleanField(verbose_name="Завершена?", default=False)
